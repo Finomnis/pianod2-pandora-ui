@@ -1,7 +1,7 @@
 import { Backdrop, Box, CircularProgress, createStyles, makeStyles, Theme } from "@material-ui/core";
 import React from "react";
 import { useSelector } from "react-redux";
-import { selectPianobarConnected } from "../../../pianobar/store/selector";
+import { selectPianobarConnected } from "../../../playerSelectors";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({

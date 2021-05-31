@@ -10,9 +10,9 @@ import {
     selectPianobarSongPlayedSeconds,
     selectPianobarSongDurationTime,
     selectPianobarSongPlayedTime,
-} from "../../../pianobar/store/selector";
+} from "../../../playerSelectors";
 import { useAppDispatch } from "../../../../app/store";
-import { pauseAction, resumeAction, skipAction } from "../../../pianobar/actions/simpleActions";
+import { pauseAction, resumeAction, skipAction } from "../../../playerActions";
 import styles from "./styles.module.css";
 
 const SongLinearProgress = withStyles((theme: Theme) => {

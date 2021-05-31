@@ -1,6 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { selectPianobarCoverArt } from "../../../pianobar/store/selector";
+import { selectPianobarCoverArt } from "../../../playerSelectors";
 import AutoSizer from "react-virtualized-auto-sizer";
 import note from "./musical-note.svg";
 import { Box } from "@material-ui/core";

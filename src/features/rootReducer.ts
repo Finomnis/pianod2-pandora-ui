@@ -1,6 +1,6 @@
 import { combineReducers } from "redux";
-import pianobarReducer from "./pianobar/store/slice";
+import pianod2Reducer from "./pianod2/store/slice";
 
 export default combineReducers({
-    pianobar: pianobarReducer,
+    pianod2: pianod2Reducer,
 });

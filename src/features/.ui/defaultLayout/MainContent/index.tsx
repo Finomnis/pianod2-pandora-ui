@@ -4,14 +4,14 @@ import { useSelector } from "react-redux";
 
 import { useAppDispatch } from "../../../../app/store";
 import CoverArt from "../../widgets/CoverArt";
-import { changeStationAction } from "../../../pianobar/actions/simpleActions";
+import { changeStationAction } from "../../../playerActions";
 import {
     selectPianobarAlbum,
     selectPianobarArtist,
     selectPianobarStationId,
     selectPianobarStations,
     selectPianobarTitle
-} from "../../../pianobar/store/selector";
+} from "../../../playerSelectors";
 import Popups from "../Popups";
 import TextAutoShrinker from "../../widgets/TextAutoShrinker";
 
