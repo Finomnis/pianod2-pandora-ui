@@ -7,7 +7,8 @@ export default class Pianod2Client {
     websocket: WebSocket;
     connected: boolean;
 
-    constructor(url: string) {
+    constructor(hostname: string, port: string) {
+        const url = "ws://" + hostname + ":" + port + "/pianod?protocol=json"
         this.connected = false;
         this.websocket = new WebSocket(url);
         this.websocket.onopen = this.onopen.bind(this);

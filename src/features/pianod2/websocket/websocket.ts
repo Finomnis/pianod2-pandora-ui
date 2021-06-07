@@ -10,4 +10,4 @@ export function* pianobarWebsocketSaga() {
 }
 
 // Create websocket
-export default new Pianod2Client("ws://" + window.location.hostname + ":" + WEBSOCKET_PORT + "/pianod?protocol=json");
+export default new Pianod2Client(window.location.hostname, WEBSOCKET_PORT);
