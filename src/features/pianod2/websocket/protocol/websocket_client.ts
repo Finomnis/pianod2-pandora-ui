@@ -1,6 +1,7 @@
 import { call, delay } from "@redux-saga/core/effects";
 import store from "../../../../app/store";
 import { connectionEstablished, connectionLost } from "../../store/slices/connected";
+import { websocketSignalAction } from "../actions";
 
 export default class Pianod2Client {
     websocket: WebSocket;
@@ -15,7 +16,7 @@ export default class Pianod2Client {
         this.websocket.onmessage = this.onmessage.bind(this);
     }
 
-    onopen(event: Event): any {
+    onopen(event: Event) {
         this.connected = true;
         store.dispatch(connectionEstablished());
     }
@@ -41,7 +42,32 @@ export default class Pianod2Client {
     }
 
     onmessage(event: MessageEvent) {
-        console.log("message", event);
+        // Check if payload is string
+        const data = event.data;
+        if (typeof data !== 'string') {
+            console.warn("Received unexpected non-textual websocket data!");
+            return;
+        }
+
+        // Parse payload data to dictionary
+        let parsed_data: { [key: string]: object } = {};
+        try {
+            // Decode JSON
+            const potentially_parsed_data = JSON.parse(data)
+
+            // Make sure it's a dictionary
+            if (!potentially_parsed_data || potentially_parsed_data.constructor !== Object) {
+                console.warn("Received unexpected non-object websocket json data!");
+                return;
+            }
+
+            parsed_data = potentially_parsed_data;
+        } catch (e) {
+            console.warn("Received unexpected non-json websocket data!", e);
+            return;
+        }
+
+        store.dispatch(websocketSignalAction(parsed_data));
     }
 
     * main() {
