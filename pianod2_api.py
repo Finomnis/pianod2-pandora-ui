@@ -28,13 +28,14 @@ async def rpc(websocket, name, args):
 async def getSchema(websocket, request):
     response = await rpc(websocket, "getSchema", {"request": request})
     lines = [line["information"] for line in response]
-    if len(lines) > 2 and lines[0].startswith("All requests take the form:"):
-        lines = lines[2:]
     return lines
 
 
 async def getAllCommands(websocket):
-    return await getSchema(websocket, [])
+    lines = await getSchema(websocket, [])
+    if len(lines) > 2 and lines[0].startswith("All requests take the form:"):
+        lines = lines[2:]
+    return lines
 
 
 async def main():
@@ -47,7 +48,7 @@ async def main():
         assert welcome_message["code"] == 200
         method = args.method
 
-        available_methods = await getSchema(websocket, [])
+        available_methods = await getAllCommands(websocket)
         if method is None:
             for available_method in available_methods:
                 print(available_method)
