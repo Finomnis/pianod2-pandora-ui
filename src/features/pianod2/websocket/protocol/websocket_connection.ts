@@ -7,22 +7,22 @@ export class WebsocketConnection {
     receive_channel: EventChannel<Pianod2WebsocketMessage | Error>;
 
     constructor(hostname: string, port: string) {
-        const url = "ws://" + hostname + ":" + port + "/pianod?protocol=json"
+        const url = "ws://" + hostname + ":" + port + "/pianod?protocol=json";
 
         this.#websocket = new WebSocket(url);
         this.receive_channel = eventChannel(emit => {
 
             this.#websocket.onopen = (event) => {
-            }
+            };
 
             this.#websocket.onclose = (event) => {
                 console.warn("Websocket closed:", event.reason);
                 emit(END);
-            }
+            };
 
             this.#websocket.onerror = (event) => {
                 emit(new Error("Websocket threw an error."));
-            }
+            };
 
             this.#websocket.onmessage = (event) => {
                 // Check if payload is string
@@ -36,7 +36,7 @@ export class WebsocketConnection {
                 let parsed_data: Pianod2WebsocketMessage = {};
                 try {
                     // Decode JSON
-                    const potentially_parsed_data = JSON.parse(data)
+                    const potentially_parsed_data = JSON.parse(data);
 
                     // Make sure it's a dictionary
                     if (!potentially_parsed_data || potentially_parsed_data.constructor !== Object) {
@@ -51,7 +51,7 @@ export class WebsocketConnection {
                 }
 
                 emit(parsed_data);
-            }
+            };
 
             return () => {
                 this.#websocket.close();
@@ -59,6 +59,9 @@ export class WebsocketConnection {
         })
     }
 
-
-
+    send_command(name: string, args: object) {
+        let command: { [name: string]: object } = {};
+        command[name] = args;
+        this.#websocket.send(JSON.stringify(command));
+    }
 }
