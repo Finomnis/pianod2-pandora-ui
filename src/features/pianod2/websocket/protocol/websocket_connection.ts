@@ -1,10 +1,9 @@
 import { END, EventChannel, eventChannel } from "@redux-saga/core";
-
-export type Pianod2WebsocketMessage = { [key: string]: object };
+import { WebsocketData } from "../../types";
 
 export class WebsocketConnection {
     #websocket: WebSocket;
-    receive_channel: EventChannel<Pianod2WebsocketMessage | Error>;
+    receive_channel: EventChannel<WebsocketData | Error>;
 
     constructor(hostname: string, port: string) {
         const url = "ws://" + hostname + ":" + port + "/pianod?protocol=json";
@@ -16,12 +15,12 @@ export class WebsocketConnection {
             };
 
             this.#websocket.onclose = (event) => {
-                console.warn("Websocket closed:", event.reason);
+                console.warn("Websocket closed", event.reason);
                 emit(END);
             };
 
             this.#websocket.onerror = (event) => {
-                emit(new Error("Websocket threw an error."));
+                emit(new Error("Websocket threw an unknown error."));
             };
 
             this.#websocket.onmessage = (event) => {
@@ -33,7 +32,7 @@ export class WebsocketConnection {
                 }
 
                 // Parse payload data to dictionary
-                let parsed_data: Pianod2WebsocketMessage = {};
+                let parsed_data: WebsocketData = {};
                 try {
                     // Decode JSON
                     const potentially_parsed_data = JSON.parse(data);

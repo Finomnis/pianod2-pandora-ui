@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { WebsocketData } from "../../types";
 
 let initialState: {
     connected: boolean
@@ -6,9 +7,6 @@ let initialState: {
     connected: false
 };
 
-type WebsocketData = {
-    [key: string]: object
-};
 
 const slice = createSlice({
     name: "pianod2/websocket",
