@@ -1,6 +1,6 @@
 import { combineReducers } from "redux";
-import connectedReducer from "./slices/connected";
+import websocketReducer from "./slices/websocket";
 
 export default combineReducers({
-    connected: connectedReducer,
+    websocketReducer
 });

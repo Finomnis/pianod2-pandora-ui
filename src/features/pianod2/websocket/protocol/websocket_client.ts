@@ -1,7 +1,6 @@
 import { call, delay } from "@redux-saga/core/effects";
 import store from "../../../../app/store";
-import { connectionEstablished, connectionLost } from "../../store/slices/connected";
-import { websocketSignalAction } from "../actions";
+import { connectionEstablished, connectionLost, dataReceived } from "../../store/slices/websocket";
 
 export default class Pianod2Client {
     websocket: WebSocket;
@@ -68,7 +67,7 @@ export default class Pianod2Client {
             return;
         }
 
-        store.dispatch(websocketSignalAction(parsed_data));
+        store.dispatch(dataReceived(parsed_data));
     }
 
     * main() {

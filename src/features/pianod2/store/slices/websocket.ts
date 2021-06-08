@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 let initialState: {
     connected: boolean
@@ -6,8 +6,12 @@ let initialState: {
     connected: false
 };
 
+type WebsocketData = {
+    [key: string]: object
+};
+
 const slice = createSlice({
-    name: "connected",
+    name: "pianod2/websocket",
     initialState,
     reducers: {
         connectionEstablished: (state) => {
@@ -16,13 +20,15 @@ const slice = createSlice({
         connectionLost: (state) => {
             state.connected = false;
         },
+        dataReceived: (_state, _action: PayloadAction<WebsocketData>) => { }
     },
 });
 
 // Slice exports
 export const {
     connectionEstablished,
-    connectionLost
+    connectionLost,
+    dataReceived,
 } = slice.actions;
 
 export default slice.reducer;
