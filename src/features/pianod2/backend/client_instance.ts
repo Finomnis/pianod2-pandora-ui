@@ -4,11 +4,11 @@ import { WEBSOCKET_PORT } from "../../../config";
 import Pianod2Client from "./protocol/pianod2_connection";
 
 // Create websocket
-const client = new Pianod2Client(window.location.hostname, WEBSOCKET_PORT);
+const pianod2_client = new Pianod2Client(window.location.hostname, WEBSOCKET_PORT);
 
 export function* pianod2ConnectionSaga() {
     // Start connection
-    yield call(client.main.bind(client));
+    yield call(pianod2_client.main.bind(pianod2_client));
 }
 
-export default client;
+export default pianod2_client;
