@@ -42,6 +42,41 @@ export default class Pianod2Client {
         yield put(dataReceived(message as WebsocketData));
     }
 
+    * run_rpc(connection: WebsocketConnection, command: CommandRequest) {
+        try {
+            connection.send_command(command.name, command.args);
+
+            while (true) {
+                const message: WebsocketData | END = yield takeMaybe(connection.receive_channel);
+
+                yield call(this.handle_message.bind(this), message);
+
+                if ("code" in message) {
+                    const code = message["code"];
+                    if (typeof code != "number") {
+                        command.reject("Invalid return packet received.");
+                    } else if (code >= 200 && code <= 299) {
+                        if ("data" in message) {
+                            command.resolve(message["data"]);
+                        } else {
+                            command.resolve(null);
+                        }
+                    } else {
+                        if ("status" in message) {
+                            command.reject(message["status"]);
+                        } else {
+                            command.reject("Unknown error");
+                        }
+                    }
+                    break;
+                }
+            }
+        } catch (e) {
+            command.reject(e);
+            throw e;
+        }
+    }
+
     * main() {
         while (true) {
             console.info("Opening websocket connection ...");
@@ -77,37 +112,12 @@ export default class Pianod2Client {
                     }
 
                     if (command) {
-                        try {
-                            connection.send_command(command.name, command.args);
-
-                            while (true) {
-                                const message: WebsocketData | END = yield takeMaybe(receive_channel);
-
-                                yield call(this.handle_message.bind(this), message);
-
-                                if ("code" in message) {
-                                    const code = message["code"];
-                                    if (typeof code != "number") {
-                                        command.reject("Invalid return packet received.");
-                                    } else if (code >= 200 && code <= 299) {
-                                        if ("data" in message) {
-                                            command.resolve(message["data"]);
-                                        } else {
-                                            command.resolve(null);
-                                        }
-                                    } else {
-                                        if ("status" in message) {
-                                            command.reject(message["status"]);
-                                        } else {
-                                            command.reject("Unknown error");
-                                        }
-                                    }
-                                    break;
-                                }
-                            }
-                        } catch (e) {
-                            command.reject(e);
-                            throw e;
+                        const { timeout } = yield race({
+                            timeout: delay(1000),
+                            run: call(this.run_rpc.bind(this), connection, command),
+                        })
+                        if (timeout) {
+                            command.reject("Command timed out.");
                         }
                     }
                 }
