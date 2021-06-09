@@ -1,4 +1,4 @@
 
 export type WebsocketData = {
-    [key: string]: object
+    [key: string]: any
 };
