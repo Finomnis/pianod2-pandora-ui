@@ -29,6 +29,7 @@ export default class Pianod2Client {
                 name, args,
                 resolve, reject,
             };
+
             this.command_channel.put(command_request);
         })
     }
@@ -77,6 +78,8 @@ export default class Pianod2Client {
 
                     if (command) {
                         try {
+                            connection.send_command(command.name, command.args);
+
                             while (true) {
                                 const message: WebsocketData | END = yield takeMaybe(receive_channel);
 
