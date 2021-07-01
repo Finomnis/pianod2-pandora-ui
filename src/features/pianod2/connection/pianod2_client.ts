@@ -1,7 +1,7 @@
 import { call } from "@redux-saga/core/effects";
 
 import { WEBSOCKET_PORT } from "../../../config";
-import Pianod2Client from "./protocol/pianod2_connection";
+import Pianod2Client from "./layers/pianod2_layer";
 
 // Create websocket
 const pianod2_client = new Pianod2Client(window.location.hostname, WEBSOCKET_PORT);

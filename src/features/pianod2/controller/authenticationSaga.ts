@@ -4,7 +4,7 @@
 // - repeat
 
 import { call, race, select, take } from "@redux-saga/core/effects";
-import pianod2_client from "../backend/client_instance";
+import pianod2_client from "../connection/pianod2_client";
 import { getCredentials } from "../store/selectors";
 import { credentialsChanged } from "../store/slices/credentials";
 import { connectionEstablished } from "../store/slices/websocket";

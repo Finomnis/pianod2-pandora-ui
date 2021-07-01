@@ -2,7 +2,7 @@ import { channel, Channel, END } from "@redux-saga/core";
 import { call, delay, put, race, take, takeMaybe } from "@redux-saga/core/effects";
 import { connectionEstablished, connectionLost, dataReceived } from "../../store/slices/websocket";
 import { WebsocketData } from "../../types";
-import { WebsocketConnection } from "./websocket_connection";
+import { WebsocketConnection } from "./websocket_layer";
 
 type CommandRequest = {
     name: string,
