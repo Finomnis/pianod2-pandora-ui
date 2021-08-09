@@ -13,6 +13,7 @@ interface CurrentSongMessage {
     duration?: number;
     timeIndex?: number;
     playlistId?: string;
+    playlistName?: string;
 }
 
 interface StateMessage {
@@ -55,6 +56,9 @@ export function* songStateSaga() {
                 }
                 if (currentSongMessage.playlistId !== undefined) {
                     playerUpdate.playlistId = currentSongMessage.playlistId;
+                }
+                if (currentSongMessage.playlistName !== undefined) {
+                    playerUpdate.playlistName = currentSongMessage.playlistName;
                 }
                 if (currentSongMessage.duration !== undefined) {
                     playerUpdate.duration = currentSongMessage.duration;
