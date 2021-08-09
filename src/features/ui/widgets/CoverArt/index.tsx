@@ -1,13 +1,12 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { selectPianobarCoverArt } from "../../../playerSelectors";
+import { selectAlbumArt } from "../../../playerSelectors";
 import AutoSizer from "react-virtualized-auto-sizer";
 import note from "./musical-note.svg";
 import { Box } from "@material-ui/core";
 
-
 const CoverArt = () => {
-    let coverArtUrl = useSelector(selectPianobarCoverArt);
+    let coverArtUrl = useSelector(selectAlbumArt);
     return (
         <AutoSizer>
             {({ height, width }) => {
@@ -21,7 +20,7 @@ const CoverArt = () => {
                         height={height}
                     >
                         <Box width={length} height={length} boxShadow={6}>
-                            {coverArtUrl === "" ? (
+                            {coverArtUrl === null ? (
                                 <div
                                     style={{
                                         width: "100%",
@@ -48,13 +47,12 @@ const CoverArt = () => {
                                     height="100%"
                                     key="coverArt"
                                 />
-                            )
-                            }
+                            )}
                         </Box>
                     </Box>
                 );
             }}
-        </AutoSizer >
+        </AutoSizer>
     );
 };
 export default React.memo(CoverArt);

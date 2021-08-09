@@ -1,9 +1,8 @@
-//import MainWindow from "./features/ui/defaultLayout/MainWindow";
+import MainWindow from "./features/ui/debugLayout/MainWindow";
 
 function App() {
     return (
-        <div>TEST</div>
-        //<MainWindow></MainWindow>
+        <MainWindow></MainWindow>
     );
 }
 
