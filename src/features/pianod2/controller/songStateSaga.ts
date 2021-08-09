@@ -62,10 +62,6 @@ export function* songStateSaga() {
                 }
                 if (currentSongMessage.duration !== undefined) {
                     playerUpdate.duration = currentSongMessage.duration;
-                    playerUpdate.position = {
-                        lastKnownPosition: 0,
-                        lastPositionUpdate: Date.now(),
-                    };
                 }
                 if (currentSongMessage.timeIndex !== undefined) {
                     playerUpdate.position = {
