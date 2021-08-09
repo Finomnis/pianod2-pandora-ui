@@ -12,7 +12,7 @@ import {
     selectSongPosition,
     selectPlaylistName,
     selectSong,
-    // selectStations,
+    selectPlaylists,
 } from "../../playerSelectors";
 import CoverArt from "../widgets/CoverArt";
 
@@ -26,7 +26,7 @@ const MainWindow = () => {
     let playbackState = useSelector(selectPlaybackState);
     let songPosition = useSelector(selectSongPosition);
     let songDuration = useSelector(selectSongDuration);
-    //let pianobarStations = useSelector(selectPianobarStations);
+    let stations = useSelector(selectPlaylists);
 
     // let connected = useSelector(selectPianobarConnected);
 
@@ -39,14 +39,15 @@ const MainWindow = () => {
         </tr>
     ));
 
-    /*const changeStation = (e: any) => {
+    const changeStation = (e: any) => {
         e.preventDefault();
 
-        const station = parseInt(e.target[0].value);
+        const station = e.target[0].value;
+        console.log("Station: ", station);
         //dispatch(changeStationAction.run({ stationId: station }));
 
         return false;
-    }*/
+    };
 
     return (
         <div
@@ -82,19 +83,21 @@ const MainWindow = () => {
             {playbackState}
             <br />
             <br />
-            {/* <form onSubmit={changeStation}>
+            <form onSubmit={changeStation}>
                 <label>
                     Station:&nbsp;
                     <select required>
-                        {pianobarStations.map((station, index) => (
-                            <option value={index} key={index}>
-                                {station}
-                            </option>
-                        ))}
+                        {Object.entries(stations).map(
+                            ([stationId, stationName]) => (
+                                <option value={stationId} key={stationId}>
+                                    {stationName}
+                                </option>
+                            )
+                        )}
                     </select>
                     <button>Change Station</button>
                 </label>
-            </form> */}
+            </form>
             <br />
             {/* <button onClick={() => dispatch(resumeAction.run())}>Resume</button>
             &nbsp;&nbsp;

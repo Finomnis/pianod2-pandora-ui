@@ -18,4 +18,6 @@ export const selectPlaylistId = (state: RootState) =>
     state.pianod2.player.playlistId;
 export const selectPlaylistName = (state: RootState) =>
     state.pianod2.player.playlistName;
+export const selectPlaylists = (state: RootState) =>
+    state.pianod2.playlists.items;
 //export const selectStations = (state: RootState) => state.pianod2.player.
