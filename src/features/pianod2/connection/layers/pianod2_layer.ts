@@ -54,7 +54,7 @@ export default class Pianod2Client {
                 if ("code" in message) {
                     const code = message["code"];
                     if (typeof code != "number") {
-                        command.reject("Invalid return packet received.");
+                        command.reject({ reason: "Invalid return packet received.", message });
                     } else if (code >= 200 && code <= 299) {
                         if ("data" in message) {
                             command.resolve(message["data"]);
@@ -63,9 +63,9 @@ export default class Pianod2Client {
                         }
                     } else {
                         if ("status" in message) {
-                            command.reject(message["status"]);
+                            command.reject({ reason: message["status"], message });
                         } else {
-                            command.reject("Unknown error");
+                            command.reject({ reason: "Unknown error", message });
                         }
                     }
                     break;
