@@ -5,11 +5,9 @@ import PauseIcon from '@material-ui/icons/Pause';
 import SkipNextIcon from '@material-ui/icons/SkipNext';
 import { useSelector } from "react-redux";
 import {
-    selectPianobarPaused,
-    selectPianobarSongDurationSeconds,
-    selectPianobarSongPlayedSeconds,
-    selectPianobarSongDurationTime,
-    selectPianobarSongPlayedTime,
+    selectPlaying,
+    selectSongDuration,
+    selectSongPosition,
 } from "../../../playerSelectors";
 import { useAppDispatch } from "../../../../app/store";
 import { pauseAction, resumeAction, skipAction } from "../../../playerActions";
@@ -29,14 +27,14 @@ const SongLinearProgress = withStyles((theme: Theme) => {
 })(LinearProgress);
 
 const ProgressBar = React.memo(() => {
-    const songDurationSeconds = useSelector(selectPianobarSongDurationSeconds);
-    const songPlayedSeconds = useSelector(selectPianobarSongPlayedSeconds);
-    return <SongLinearProgress color="primary" variant="determinate" value={100 * (songPlayedSeconds / songDurationSeconds)} />;
+    const songDurationSeconds = useSelector(selectSongDuration);
+    const songPlayedSeconds = useSelector(selectSongPosition).lastKnownPosition;
+    return <SongLinearProgress color="primary" variant="determinate" value={100 * (1 / 3)} />;
 });
 
 const SongTime = React.memo(() => {
-    const songDurationTime = useSelector(selectPianobarSongDurationTime);
-    const songPlayedTime = useSelector(selectPianobarSongPlayedTime);
+    const songDurationTime = "TO:DO";
+    const songPlayedTime = "TO:DO";
     return <Box flex="0 0 auto" display="flex" flexDirection="row" alignItems="stretch"
         marginRight="2em" style={{ opacity: 0.5 }}
         fontSize=".9em"
@@ -49,14 +47,14 @@ const SongTime = React.memo(() => {
 
 const PlayPauseButton = React.memo(() => {
     const dispatch = useAppDispatch();
-    const paused = useSelector(selectPianobarPaused);
-    return <IconButton color="inherit" onClick={() => paused ? dispatch(resumeAction.run()) : dispatch(pauseAction.run())}>
+    const playing = useSelector(selectPlaying);
+    return <IconButton color="inherit" onClick={() => playing ? dispatch(pauseAction()) : dispatch(resumeAction())} >
         {
-            paused
-                ? <PlayArrowIcon style={{ fontSize: 45 }} />
-                : <PauseIcon style={{ fontSize: 45 }} />
+            playing
+                ? <PauseIcon style={{ fontSize: 45 }} />
+                : <PlayArrowIcon style={{ fontSize: 45 }} />
         }
-    </IconButton>
+    </IconButton >
 });
 
 const PlayerController = () => {
@@ -86,7 +84,7 @@ const PlayerController = () => {
                 </Box>
                 <Box flex="1 0 0" display="flex" justifyContent="flex-start" alignItems="center">
                     <Box className={styles.buttonHolder}>
-                        <IconButton color="inherit" onClick={() => dispatch(skipAction.run())} >
+                        <IconButton color="inherit" onClick={() => dispatch(skipAction())} >
                             <SkipNextIcon />
                         </IconButton>
                     </Box>

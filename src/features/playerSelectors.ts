@@ -14,6 +14,8 @@ export const selectSongDuration = (state: RootState) =>
     state.pianod2.player.duration;
 export const selectSongPosition = (state: RootState) =>
     state.pianod2.player.position;
+export const selectPlaying = (state: RootState) =>
+    state.pianod2.player.playbackState === "playing";
 export const selectPlaylistName = (state: RootState) =>
     state.pianod2.player.playlistName;
 export const selectPlaylists = (state: RootState) =>
