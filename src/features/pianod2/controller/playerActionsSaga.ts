@@ -1,5 +1,6 @@
 import { Action } from "redux";
-import { takeEvery, call } from "redux-saga/effects";
+import { takeEvery, call, put } from "redux-saga/effects";
+import { notifcationAction, NotificationSeverity } from "../../notificationActions";
 import { changeStationAction } from "../../playerActions";
 import pianod2_client from "../connection/pianod2_client";
 
@@ -25,7 +26,14 @@ function* handlePlayerAction(action: Action) {
             );
         }
     } catch (e) {
-        console.error("Error while executing action:", action, e);
+        const actionType = `${action.type}`.replace(/^.*\//gm, "");
+
+        yield put(notifcationAction({
+            severity: NotificationSeverity.Error,
+            message: `Action '${actionType}' failed!`,
+        }));
+
+        console.error("Action failed:", action, e);
     }
 }
 
