@@ -18,6 +18,10 @@ interface CurrentSongMessage {
 
 interface StateMessage {
     playbackState?: string;
+    selectedPlaylist? :{
+        id?: string,
+        name?: string
+    }
 }
 
 function objectNonEmpty(obj: object) {
@@ -76,6 +80,15 @@ export function* songStateSaga() {
             const stateMessage: StateMessage = payload["state"];
             if (stateMessage.playbackState !== undefined) {
                 playerUpdate.playbackState = stateMessage.playbackState;
+            }
+            const selectedPlaylist = stateMessage.selectedPlaylist;
+            if (selectedPlaylist !== undefined) {
+                if (selectedPlaylist.id !== undefined) {
+                    playerUpdate.playlistId = selectedPlaylist.id;
+                }
+                if (selectedPlaylist.name !== undefined) {
+                    playerUpdate.playlistName = selectedPlaylist.name;
+                }
             }
         }
 
