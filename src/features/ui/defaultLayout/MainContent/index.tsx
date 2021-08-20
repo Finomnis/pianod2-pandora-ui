@@ -48,7 +48,7 @@ const MainContent = () => {
                 >
                     {(stationId === null) ? <option disabled value={-1} key={-1}>- Select Station -</option> : null}
                     {
-                        Object.entries(stations).map(([stationId, stationName]) => (
+                        Object.entries(stations).sort(([, a2], [, b2]) => a2.localeCompare(b2)).map(([stationId, stationName]) => (
                             <option value={stationId} key={stationId}>{stationName}</option>
                         ))
                     }
