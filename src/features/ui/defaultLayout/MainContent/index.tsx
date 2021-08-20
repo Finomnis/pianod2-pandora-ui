@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 
 import { useAppDispatch } from "../../../../app/store";
 import CoverArt from "../../widgets/CoverArt";
-/*import { changeStationAction } from "../../../playerActions";*/
+import { changeStationAction } from "../../../playerActions";
 import {
     selectAlbum,
     selectArtist,
@@ -25,12 +25,10 @@ const MainContent = () => {
     let dispatch = useAppDispatch();
 
     const handleChange = (event: React.ChangeEvent<{ name?: string; value: unknown }>) => {
-        const value = event.target.value;
-        if (typeof (value) != "string")
+        const station = event.target.value;
+        if (typeof (station) != "string")
             return;
-        const station = parseInt(value);
-
-        //dispatch(changeStationAction.run({ stationId: station }));
+        dispatch(changeStationAction({ stationId: station }));
     };
 
     return (
