@@ -18,7 +18,7 @@ const Disconnected = () => {
     return (
         <Backdrop className={classes.backdrop} open={!connected}>
             <Box display="flex" flexDirection="column" alignItems="center">
-                <Box marginBottom="1.5em">Disconnected from pianobar server.</Box>
+                <Box marginBottom="1.5em">Disconnected from pianod2 server.</Box>
                 <CircularProgress color="inherit" />
                 <Box marginTop="1.5em">Reconnecting ...</Box>
             </Box>

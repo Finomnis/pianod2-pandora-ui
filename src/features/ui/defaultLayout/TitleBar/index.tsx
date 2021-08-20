@@ -22,7 +22,7 @@ const TitleBar = () => {
                     <MenuIcon />
                 </IconButton>
                 <Typography variant="h6" className={classes.title}>
-                    Pianobar
+                    Pianod2
                 </Typography>
             </Toolbar>
         </AppBar>
