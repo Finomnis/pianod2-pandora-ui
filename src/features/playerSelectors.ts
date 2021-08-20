@@ -14,10 +14,16 @@ export const selectSongDuration = (state: RootState) =>
     state.pianod2.player.duration;
 export const selectSongPosition = (state: RootState) =>
     state.pianod2.player.position;
-export const selectPlaylistId = (state: RootState) =>
-    state.pianod2.player.playlistId;
 export const selectPlaylistName = (state: RootState) =>
     state.pianod2.player.playlistName;
 export const selectPlaylists = (state: RootState) =>
     state.pianod2.playlists.items;
-//export const selectStations = (state: RootState) => state.pianod2.player.
+export const selectPlaylistId = (state: RootState) => {
+    const playlistId = state.pianod2.player.playlistId;
+    if (playlistId === null || !(playlistId in state.pianod2.playlists.items)) {
+        // Only return a playlist id if it is in the valid playlists.
+        // Otherwise it could be a auto-generated internal playlist id.
+        return null;
+    }
+    return playlistId;
+}
