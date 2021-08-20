@@ -13,9 +13,12 @@ function* handlePlayerAction(action: Action) {
     try {
         if (changeStationAction.match(action)) {
             yield call_pianod2(
-                "select",
+                "play",
                 {
                     playbackOptions: {
+                        now: 'now',
+                        playback: 'resume',
+                        queueMode: 'random',
                         select: 'playlist',
                         playlist: {
                             manner: "id",
