@@ -62,9 +62,15 @@ const tryRun = (actionHandler: (action: Action) => any) => (
         } catch (e) {
             const actionType = `${action.type}`.replace(/^.*\//gm, "");
 
+            let message = `Action '${actionType}' failed!`;
+
+            if ('reason' in e) {
+                message = `Action '${actionType}' failed: ${e.reason}`;
+            }
+
             yield put(notifcationAction({
                 severity: NotificationSeverity.Error,
-                message: `Action '${actionType}' failed!`,
+                message,
             }));
 
             console.error("Action failed:", action, e);
