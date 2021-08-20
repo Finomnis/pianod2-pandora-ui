@@ -62,17 +62,17 @@ const MainContent = () => {
 
             <Box flex="0.7 0 0" /> {/* space */}
             <Box width="90%">
-                <Typography variant="h6" align="center" noWrap>
+                <Typography component="div" variant="h6" align="center" noWrap>
                     <TextAutoShrinker>
                         {title !== null ? title : ""}
                     </TextAutoShrinker>
                 </Typography>
-                <Typography noWrap align="center">
+                <Typography component="div" noWrap align="center">
                     <TextAutoShrinker>
                         {artist !== null ? artist : ""}
                     </TextAutoShrinker>
                 </Typography>
-                <Typography noWrap align="center">
+                <Typography component="div" noWrap align="center">
                     <TextAutoShrinker>
                         {album !== null ? album : ""}
                     </TextAutoShrinker>
