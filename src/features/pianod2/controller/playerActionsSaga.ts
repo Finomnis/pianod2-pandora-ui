@@ -1,7 +1,7 @@
 import { Action } from "redux";
 import { takeEvery, call, put } from "redux-saga/effects";
 import { notifcationAction, NotificationSeverity } from "../../notificationActions";
-import { changeStationAction } from "../../playerActions";
+import { changeStationAction, pauseAction, resumeAction, skipAction } from "../../playerActions";
 import pianod2_client from "../connection/pianod2_client";
 
 const call_pianod2 = (command: string, args: object) => call(
@@ -9,39 +9,73 @@ const call_pianod2 = (command: string, args: object) => call(
     command, args
 );
 
-function* handlePlayerAction(action: Action) {
-    try {
-        if (changeStationAction.match(action)) {
-            yield call_pianod2(
-                "play",
-                {
-                    playbackOptions: {
-                        now: 'now',
-                        playback: 'resume',
-                        queueMode: 'random',
-                        select: 'playlist',
-                        playlist: {
-                            manner: "id",
-                            items: [action.payload.stationId]
-                        }
-                    }
+
+function* handleChangeStationAction(action: Action) {
+    if (!(changeStationAction.match(action))) return;
+
+    yield call_pianod2(
+        "play",
+        {
+            playbackOptions: {
+                now: 'now',
+                playback: 'resume',
+                queueMode: 'random',
+                select: 'playlist',
+                playlist: {
+                    manner: "id",
+                    items: [action.payload.stationId]
                 }
-            );
+            }
         }
-    } catch (e) {
-        const actionType = `${action.type}`.replace(/^.*\//gm, "");
-
-        yield put(notifcationAction({
-            severity: NotificationSeverity.Error,
-            message: `Action '${actionType}' failed!`,
-        }));
-
-        console.error("Action failed:", action, e);
-    }
+    );
 }
+
+
+function* handleResumeAction(action: Action) {
+    if (!(resumeAction.match(action))) return;
+
+    yield call_pianod2(
+        "resume", {}
+    );
+}
+
+function* handlePauseAction(action: Action) {
+    if (!(pauseAction.match(action))) return;
+
+    yield call_pianod2(
+        "pause", {}
+    );
+}
+
+function* handleSkipAction(action: Action) {
+    if (!(skipAction.match(action))) return;
+
+    yield call_pianod2(
+        "skip", {}
+    );
+}
+
+const tryRun = (actionHandler: (action: Action) => any) => (
+    function* saga(action: Action) {
+        try {
+            yield actionHandler(action);
+        } catch (e) {
+            const actionType = `${action.type}`.replace(/^.*\//gm, "");
+
+            yield put(notifcationAction({
+                severity: NotificationSeverity.Error,
+                message: `Action '${actionType}' failed!`,
+            }));
+
+            console.error("Action failed:", action, e);
+        }
+    });
 
 // TODO clean this up ... put handlers in a list and write wrapper or something
 
 export function* playerActionsSaga() {
-    yield takeEvery(changeStationAction.match, handlePlayerAction);
+    yield takeEvery(changeStationAction.match, tryRun(handleChangeStationAction));
+    yield takeEvery(resumeAction.match, tryRun(handleResumeAction));
+    yield takeEvery(pauseAction.match, tryRun(handlePauseAction));
+    yield takeEvery(skipAction.match, tryRun(handleSkipAction));
 }
