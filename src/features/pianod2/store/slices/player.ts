@@ -54,7 +54,15 @@ const slice = createSlice({
             const payload = action.payload;
 
             if (payload === null) {
+                // Delete everything but the playlist info.
+                // This payload gets received when the current song
+                // gets stopped.
+                // This does NOT invalidate the playlist.
+                const playlistId = state.playlistId;
+                const playlistName = state.playlistName;
                 Object.assign(state, initialState);
+                state.playlistId = playlistId;
+                state.playlistName = playlistName;
                 return;
             }
 
