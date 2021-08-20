@@ -1,7 +1,7 @@
 import { Backdrop, Box, CircularProgress, createStyles, makeStyles, Theme } from "@material-ui/core";
 import React from "react";
 import { useSelector } from "react-redux";
-import { selectPianobarConnected } from "../../../playerSelectors";
+import { selectConnected } from "../../../playerSelectors";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const Disconnected = () => {
     const classes = useStyles();
-    const connected = useSelector(selectPianobarConnected);
+    const connected = useSelector(selectConnected);
     return (
         <Backdrop className={classes.backdrop} open={!connected}>
             <Box display="flex" flexDirection="column" alignItems="center">

@@ -4,24 +4,23 @@ import { useSelector } from "react-redux";
 
 import { useAppDispatch } from "../../../../app/store";
 import CoverArt from "../../widgets/CoverArt";
-import { changeStationAction } from "../../../playerActions";
+/*import { changeStationAction } from "../../../playerActions";*/
 import {
-    selectPianobarAlbum,
-    selectPianobarArtist,
-    selectPianobarStationId,
-    selectPianobarStations,
-    selectPianobarTitle
+    selectAlbum,
+    selectArtist,
+    selectPlaylistId,
+    selectPlaylists,
+    selectSong,
 } from "../../../playerSelectors";
 import Popups from "../Popups";
 import TextAutoShrinker from "../../widgets/TextAutoShrinker";
 
 const MainContent = () => {
-
-    let pianobarStations = useSelector(selectPianobarStations);
-    let pianobarTitle = useSelector(selectPianobarTitle);
-    let pianobarAlbum = useSelector(selectPianobarAlbum);
-    let pianobarArtist = useSelector(selectPianobarArtist);
-    let pianobarStationId = useSelector(selectPianobarStationId);
+    let stations = useSelector(selectPlaylists);
+    let title = useSelector(selectSong);
+    let album = useSelector(selectAlbum);
+    let artist = useSelector(selectArtist);
+    let stationId = useSelector(selectPlaylistId);
 
     let dispatch = useAppDispatch();
 
@@ -31,7 +30,7 @@ const MainContent = () => {
             return;
         const station = parseInt(value);
 
-        dispatch(changeStationAction.run({ stationId: station }));
+        //dispatch(changeStationAction.run({ stationId: station }));
     };
 
     return (
@@ -46,13 +45,13 @@ const MainContent = () => {
             <Box maxWidth="90%">
                 <Select
                     native
-                    value={pianobarStationId}
+                    value={stationId !== null ? stationId : -1}
                     onChange={handleChange}
                 >
-                    {(pianobarStationId === -1) ? <option disabled value={-1} key={-1}>- Select Station -</option> : null}
+                    {(stationId === null) ? <option disabled value={-1} key={-1}>- Select Station -</option> : null}
                     {
-                        pianobarStations.map((station, index) => (
-                            <option value={index} key={index}>{station}</option>
+                        Object.entries(stations).map(([stationId, stationName]) => (
+                            <option value={stationId} key={stationId}>{stationName}</option>
                         ))
                     }
                 </Select>
@@ -67,17 +66,17 @@ const MainContent = () => {
             <Box width="90%">
                 <Typography variant="h6" align="center" noWrap>
                     <TextAutoShrinker>
-                        {pianobarTitle}
+                        {title !== null ? title : ""}
                     </TextAutoShrinker>
                 </Typography>
                 <Typography noWrap align="center">
                     <TextAutoShrinker>
-                        {pianobarArtist}
+                        {artist !== null ? artist : ""}
                     </TextAutoShrinker>
                 </Typography>
                 <Typography noWrap align="center">
                     <TextAutoShrinker>
-                        {pianobarAlbum}
+                        {album !== null ? album : ""}
                     </TextAutoShrinker>
                 </Typography>
             </Box>
