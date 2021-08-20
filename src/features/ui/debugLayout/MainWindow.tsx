@@ -28,8 +28,6 @@ const MainWindow = () => {
     let songDuration = useSelector(selectSongDuration);
     let stations = useSelector(selectPlaylists);
 
-    // let connected = useSelector(selectPianobarConnected);
-
     let dispatch = useAppDispatch();
 
     let stateList = Object.entries(playerState).map(([key, value]) => (
