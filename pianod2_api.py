@@ -3,7 +3,7 @@
 import asyncio
 import websockets
 import json
-import argparse
+import click
 
 
 async def rpc(websocket, name, args):
@@ -38,28 +38,25 @@ async def getAllCommands(websocket):
     return lines
 
 
-async def main():
-    parser = argparse.ArgumentParser(description='Query pianod2 API documents.')
-    parser.add_argument('method', type=str, nargs="?", help='The requested API method')
-    args = parser.parse_args()
+async def main_async(addr, methods):
 
-    async with websockets.connect("ws://localhost:4446/pianod?protocol=json") as websocket:
+    async with websockets.connect(f"ws://{addr}:4446/pianod?protocol=json") as websocket:
         welcome_message = json.loads(await websocket.recv())
         assert welcome_message["code"] == 200
-        method = args.method
 
         available_methods = await getAllCommands(websocket)
-        if method is None:
+        if not methods:
             for available_method in available_methods:
                 print(available_method)
             return
 
-        if method not in available_methods:
-            print(f"Method '{method}' does not exist.")
-            return
-
         try:
-            response = await getSchema(websocket, [method])
+            for method in methods:
+                if method not in available_methods:
+                    print(f"Method '{method}' does not exist.")
+                    return
+
+            response = await getSchema(websocket, list(methods))
 
             for line in response:
                 print(line)
@@ -67,5 +64,13 @@ async def main():
             print(f"Error: {e}")
 
 
+@click.command()
+@click.option('--addr', default="localhost", help='The server address')
+@click.argument('methods', nargs=-1)
+def main(addr, methods):
+    """Query pianod2 API documents."""
+    asyncio.run(main_async(addr, methods))
+
+
 if __name__ == "__main__":
-    asyncio.run(main())
+    main()
