@@ -10,6 +10,7 @@ RUN apt-get update && \
     build-essential \
     pkg-config \
     subversion \
+    libgnutls28-dev \
     curl
 ARG pianod2_version
 RUN mkdir /pianod2
