@@ -9,7 +9,7 @@ RUN groupadd -g 1000 pi && useradd pi -s /bin/bash -m -u 1000 -g 1000
 USER pi
 
 # Pulse config
-COPY pulse-client.conf /etc/pulse/client.conf
+COPY docker/pulse-client.conf /etc/pulse/client.conf
 
 # Volume
 VOLUME /run/user/1000/pulse
