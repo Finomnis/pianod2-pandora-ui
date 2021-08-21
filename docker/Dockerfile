@@ -11,7 +11,19 @@ RUN mkdir /pianod2
 WORKDIR /pianod2
 RUN curl -S -L http://deviousfish.com/Downloads/pianod2/Devel/pianod2-${pianod2_version}.tar.gz \
     | tar --strip-components=1 -xzf -
-RUN ls -la
+RUN aclocal \
+    && autoheader \
+    && automake --add-missing #--force-missing
+RUN autoconf
+    && ./configure \
+        --with-libsdl \
+        --with-libao \
+        --with-pandora \
+        --with-libavdevice \
+        --with-tls=gnutls \
+        --without-filesystem \
+        --without-tonegenerator
+RUN make
 
 
 ###################################
