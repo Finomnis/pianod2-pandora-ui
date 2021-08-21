@@ -11,8 +11,5 @@ USER pi
 # Pulse config
 COPY docker/pulse-client.conf /etc/pulse/client.conf
 
-# Volume
-VOLUME /run/user/1000/pulse
-
 # run
 CMD ["pacat", "-vvvv", "/dev/urandom"]
