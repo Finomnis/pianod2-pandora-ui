@@ -10,12 +10,11 @@ RUN apt-get update && \
     build-essential \
     pkg-config \
     subversion \
-    libgnutls28-dev \
-    libavfilter-dev \
-    libavdevice-dev \
-    libao-dev \
-    libsdl1.2-dev \
     libcurl4-gnutls-dev \
+    libgnutls28-dev \
+    zlib1g-dev \
+    libavfilter-dev \
+    libao-dev \
     curl
 ARG pianod2_version
 RUN mkdir /pianod2
@@ -27,11 +26,11 @@ RUN aclocal \
     && automake --add-missing #--force-missing
 RUN autoconf \
     && ./configure \
-        --with-libsdl \
         --with-libao \
         --with-pandora \
-        --with-libavdevice \
         --with-tls=gnutls \
+        --without-libsdl \
+        --without-libavdevice \
         --without-filesystem \
         --without-tonegenerator
 RUN make
@@ -44,9 +43,8 @@ FROM debian:10.8
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install --yes \
     pulseaudio-utils \
     libcurl3-gnutls \
+    libavfilter7 \
     libao4 \
-    libsdl1.2debian \
-    libavdevice58 \
     && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Set up the user
