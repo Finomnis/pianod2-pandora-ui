@@ -42,8 +42,12 @@ RUN make
 FROM debian:10.8
 
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install --yes \
- pulseaudio-utils \
- && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+    pulseaudio-utils \
+    libcurl3-gnutls \
+    libao4 \
+    libsdl1.2debian \
+    libavdevice58 \
+    && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Set up the user
 RUN groupadd -g 1000 pi && useradd pi -s /bin/bash -m -u 1000 -g 1000
