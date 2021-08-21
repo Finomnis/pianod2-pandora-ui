@@ -12,6 +12,7 @@ import {
 import { useAppDispatch } from "../../../../app/store";
 import { pauseAction, resumeAction, skipAction } from "../../../playerActions";
 import styles from "./styles.module.css";
+import { useAnimatedSongTime } from "./animatedSongTime";
 
 const SongLinearProgress = withStyles((theme: Theme) => {
     console.log("THEME:", theme);
@@ -22,19 +23,46 @@ const SongLinearProgress = withStyles((theme: Theme) => {
         },
         bar: {
             backgroundColor: theme.palette.primary.light,
+            transition: "none",
         },
     };
 })(LinearProgress);
 
 const ProgressBar = React.memo(() => {
-    const songDurationSeconds = useSelector(selectSongDuration);
-    const songPlayedSeconds = useSelector(selectSongPosition).lastKnownPosition;
-    return <SongLinearProgress color="primary" variant="determinate" value={100 * (1 / 3)} />;
+    const songDuration = useSelector(selectSongDuration);
+    const songPosition = useSelector(selectSongPosition);
+    const playing = useSelector(selectPlaying);
+
+    const animatedTime = useAnimatedSongTime(songPosition, songDuration, playing);
+
+    const songPlayedSeconds = (animatedTime === null) ? 0 : animatedTime;
+    const songDurationSeconds = (songDuration === null) ? 1 : songDuration;
+
+    return <SongLinearProgress color="primary" variant="determinate" value={100 * (songPlayedSeconds / songDurationSeconds)} />;
 });
 
+const formatTime = (seconds: number | null) => {
+    if (seconds === null) {
+        return "0:00";
+    }
+
+    seconds = Math.floor(seconds);
+    const minutes = Math.floor(seconds / 60);
+    seconds = seconds % 60;
+
+    return `${minutes}:${(seconds < 10) ? "0" : ""}${seconds}`;
+}
+
 const SongTime = React.memo(() => {
-    const songDurationTime = "TO:DO";
-    const songPlayedTime = "TO:DO";
+    const songPosition = useSelector(selectSongPosition);
+    const songDuration = useSelector(selectSongDuration);
+    const playing = useSelector(selectPlaying);
+
+    const animatedTime = useAnimatedSongTime(songPosition, songDuration, playing);
+
+    const songDurationTime = formatTime(songDuration);
+    const songPlayedTime = formatTime(animatedTime);
+
     return <Box flex="0 0 auto" display="flex" flexDirection="row" alignItems="stretch"
         marginRight="2em" style={{ opacity: 0.5 }}
         fontSize=".9em"
