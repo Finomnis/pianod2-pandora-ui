@@ -7,6 +7,8 @@ RUN apt-get update && \
  DEBIAN_FRONTEND=noninteractive apt-get install --yes \
  curl
 ARG pianod2_version
+RUN mkdir /pianod2
+WORKDIR /pianod2
 RUN curl -S -L http://deviousfish.com/Downloads/pianod2/Devel/pianod2-${pianod2_version}.tar.gz \
     | tar --strip-components=1 -xzf -
 RUN ls -la
