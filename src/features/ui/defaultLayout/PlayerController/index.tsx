@@ -53,6 +53,31 @@ const formatTime = (seconds: number | null) => {
     return `${minutes}:${(seconds < 10) ? "0" : ""}${seconds}`;
 }
 
+const SongPosition = React.memo(() => {
+    const songPosition = useSelector(selectSongPosition);
+    const songDuration = useSelector(selectSongDuration);
+    const playing = useSelector(selectPlaying);
+
+    const animatedTime = useAnimatedSongTime(songPosition, songDuration, playing);
+
+    const songPlayedTime = formatTime(animatedTime);
+
+    return <Box style={{ opacity: 0.5 }} fontSize=".9em" margin=".05em">
+        {songPlayedTime}
+    </Box>;
+});
+
+
+const SongDuration = React.memo(() => {
+    const songDuration = useSelector(selectSongDuration);
+
+    const songDurationTime = formatTime(songDuration);
+
+    return <Box style={{ opacity: 0.5 }} fontSize=".9em" margin=".05em">
+        {songDurationTime}
+    </Box>;
+});
+
 const SongTime = React.memo(() => {
     const songPosition = useSelector(selectSongPosition);
     const songDuration = useSelector(selectSongDuration);
@@ -102,15 +127,20 @@ const PlayerController = () => {
                 bgcolor="primary.main"
                 display="flex"
                 flex="0 0 auto"
-                alignItems="center"
+                alignItems="stretch"
                 overflow="hidden"
             >
-                <Box flex="1 0 0" display="flex" justifyContent="flex-end">
+                <Box flex="1 0 0" display="flex" justifyContent="flex-end" alignItems="stretch" position="relative">
+                    <Hidden smUp>
+                        <Box position="absolute" left={0} top={0}>
+                            <SongPosition />
+                        </Box>
+                    </Hidden>
                 </Box>
                 <Box flex="0 0 auto" >
                     <PlayPauseButton />
                 </Box>
-                <Box flex="1 0 0" display="flex" justifyContent="flex-start" alignItems="center">
+                <Box flex="1 0 0" display="flex" justifyContent="flex-start" alignItems="center" position="relative">
                     <Box className={styles.buttonHolder}>
                         <IconButton color="inherit" onClick={() => dispatch(skipAction())} >
                             <SkipNextIcon />
@@ -121,6 +151,11 @@ const PlayerController = () => {
 
                     <Hidden xsDown>
                         <SongTime />
+                    </Hidden>
+                    <Hidden smUp>
+                        <Box position="absolute" right={0} top={0}>
+                            <SongDuration />
+                        </Box>
                     </Hidden>
                 </Box>
             </Box >
