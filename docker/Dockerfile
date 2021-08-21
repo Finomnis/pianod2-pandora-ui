@@ -1,4 +1,4 @@
-FROM debian:11
+FROM debian:10.8
 
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install --yes \
  pulseaudio-utils \
