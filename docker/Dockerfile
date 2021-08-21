@@ -14,6 +14,7 @@ RUN apt-get update && \
     libavfilter-dev \
     libavdevice-dev \
     libao-dev \
+    libsdl1.2-dev \
     curl
 ARG pianod2_version
 RUN mkdir /pianod2
