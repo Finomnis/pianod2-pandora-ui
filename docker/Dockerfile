@@ -12,6 +12,7 @@ RUN apt-get update && \
     subversion \
     libgnutls28-dev \
     libavfilter-dev \
+    libavdevice-dev \
     curl
 ARG pianod2_version
 RUN mkdir /pianod2
