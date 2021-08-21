@@ -26,6 +26,7 @@ RUN aclocal \
     && automake --add-missing #--force-missing
 RUN autoconf \
     && ./configure \
+        --disable-debug \
         --with-libao \
         --with-pandora \
         --with-tls=gnutls \
