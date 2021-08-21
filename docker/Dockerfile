@@ -36,6 +36,14 @@ RUN autoconf \
         --without-tonegenerator
 RUN make
 
+###################################
+# Build webui
+FROM node:15-buster as webui
+COPY . /webui
+WORKDIR /webui
+RUN npm ci \
+    && npm run build
+
 
 ###################################
 # Build final system
@@ -64,6 +72,7 @@ COPY docker/pulse-client.conf /etc/pulse/client.conf
 
 # Copy externally built steps (ui + pianod2)
 COPY --from=pianod2 /pianod2/src/pianod /usr/local/bin/pianod2
+COPY --from=webui /webui/build /usr/local/share/pianod/html
 
 # Test if the command works
 RUN pianod2 -vv
