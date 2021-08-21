@@ -6,6 +6,7 @@ FROM debian:10.8 as pianod2
 RUN apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install --yes \
     automake \
+    autoconf-archive \
     subversion \
     curl
 ARG pianod2_version
