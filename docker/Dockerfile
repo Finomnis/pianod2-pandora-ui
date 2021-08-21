@@ -3,8 +3,7 @@ ARG pianod2_version="380"
 ###################################
 # Build pianod2
 FROM debian:10.8 as pianod2
-RUN apt-get update && \
-    DEBIAN_FRONTEND=noninteractive apt-get install --yes \
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install --yes \
     automake \
     autoconf-archive \
     build-essential \
@@ -15,7 +14,8 @@ RUN apt-get update && \
     zlib1g-dev \
     libavfilter-dev \
     libao-dev \
-    curl
+    curl \
+    && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 ARG pianod2_version
 RUN mkdir /pianod2
 WORKDIR /pianod2
