@@ -66,5 +66,8 @@ COPY docker/pulse-client.conf /etc/pulse/client.conf
 # Copy externally built steps (ui + pianod2)
 COPY --from=pianod2 /pianod2/src/pianod /usr/local/bin/pianod2
 
+# Test if the command works
+RUN pianod2 -vv
+
 # run
 #CMD ["pacat", "-vvvv", "/dev/urandom"]
