@@ -11,7 +11,7 @@ RUN apt-get update && \
     pkg-config \
     subversion \
     libgnutls28-dev \
-    ffmpeg \
+    libavfilter-dev \
     curl
 ARG pianod2_version
 RUN mkdir /pianod2
