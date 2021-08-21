@@ -7,6 +7,8 @@ RUN apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install --yes \
     automake \
     autoconf-archive \
+    build-essential \
+    pkg-config \
     subversion \
     curl
 ARG pianod2_version
