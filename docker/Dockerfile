@@ -5,7 +5,8 @@ ARG pianod2_version="380"
 FROM debian:10.8 as pianod2
 RUN apt-get update && \
  DEBIAN_FRONTEND=noninteractive apt-get install --yes \
- curl
+ curl \
+ automake
 ARG pianod2_version
 RUN mkdir /pianod2
 WORKDIR /pianod2
