@@ -42,7 +42,8 @@ FROM node:15-buster as webui
 COPY . /webui
 WORKDIR /webui
 RUN npm ci \
-    && npm run build
+    && npm run build \
+    && rm -rf node_modules
 
 
 ###################################
