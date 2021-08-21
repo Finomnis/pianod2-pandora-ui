@@ -13,6 +13,7 @@ RUN apt-get update && \
     libgnutls28-dev \
     libavfilter-dev \
     libavdevice-dev \
+    libao-dev \
     curl
 ARG pianod2_version
 RUN mkdir /pianod2
