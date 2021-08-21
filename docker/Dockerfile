@@ -1,3 +1,19 @@
+ARG pianod2_version="380"
+
+###################################
+# Build pianod2
+FROM debian:10.8 as pianod2
+RUN apt-get update && \
+ DEBIAN_FRONTEND=noninteractive apt-get install --yes \
+ curl
+ARG pianod2_version
+RUN curl -S -L http://deviousfish.com/Downloads/pianod2/Devel/pianod2-${pianod2_version}.tar.gz \
+    | tar --strip-components=1 -xzf -
+RUN ls -la
+
+
+###################################
+# Build final system
 FROM debian:10.8
 
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install --yes \
