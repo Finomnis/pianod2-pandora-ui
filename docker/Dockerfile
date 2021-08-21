@@ -34,5 +34,8 @@ VOLUME /run/user/1000/pulse
 # Pulse config
 COPY docker/pulse-client.conf /etc/pulse/client.conf
 
+# Copy externally built steps (ui + pianod2)
+COPY --from=pianod2 build /opt/pianod2
+
 # run
-CMD ["pacat", "-vvvv", "/dev/urandom"]
+#CMD ["pacat", "-vvvv", "/dev/urandom"]
