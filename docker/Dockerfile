@@ -14,7 +14,7 @@ RUN curl -S -L http://deviousfish.com/Downloads/pianod2/Devel/pianod2-${pianod2_
 RUN aclocal \
     && autoheader \
     && automake --add-missing #--force-missing
-RUN autoconf
+RUN autoconf \
     && ./configure \
         --with-libsdl \
         --with-libao \
