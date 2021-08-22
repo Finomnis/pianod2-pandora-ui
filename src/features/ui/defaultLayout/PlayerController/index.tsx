@@ -140,6 +140,11 @@ const PlayerController = () => {
                             <SongPosition />
                         </Box>
                     </Hidden>
+                    <Box className={styles.buttonHolder}>
+                        <IconButton disabled={controlsDisabled || true} color="inherit" onClick={() => { /*dispatch(TODO skipAction())*/ }} >
+                            <FastRewindIcon />
+                        </IconButton>
+                    </Box>
                 </Box>
                 <Box flex="0 0 auto" >
                     <PlayPauseButton disabled={controlsDisabled} />
