@@ -38,10 +38,7 @@ RUN make
 
 ###################################
 # Build webui
-FROM debian:10.8 as webui
-RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install --yes \
-    npm \
-    && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+FROM --platform=$BUILDPLATFORM node:16.7 as webui
 COPY . /webui
 WORKDIR /webui
 RUN npm ci \
