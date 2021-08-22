@@ -61,10 +61,6 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install --yes \
     nginx \
     && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-# Set up the user
-RUN groupadd -g 1000 pi && useradd pi -s /bin/bash -m -u 1000 -g 1000
-USER pi
-
 # Pulseaudio device.
 # Needs to be mounted like:
 # -v "/run/user/1000/pulse:/run/user/1000/pulse"
@@ -81,6 +77,10 @@ RUN mkdir -p /usr/local/share/pianod/html
 
 # Install web ui
 COPY --from=webui /webui/build /var/www/html
+
+# Set up the user
+RUN groupadd -g 1000 pi && useradd pi -s /bin/bash -m -u 1000 -g 1000
+USER pi
 
 # Test if pianod2 works, to make sure all dependencies
 # are installed correctly
