@@ -78,6 +78,7 @@ COPY --from=webui /webui/build /var/www/html
 
 # Set up the user
 RUN groupadd -g 1000 pi && useradd pi -s /bin/bash -m -u 1000 -g 1000
+COPY docker/sudoers-pi /etc/sudoers.d/pi
 USER pi
 
 # Test if pianod2 works, to make sure all dependencies
@@ -91,4 +92,4 @@ EXPOSE 80
 EXPOSE 4446
 
 # Start nginx and pianod2
-CMD service nginx start && pianod2
+CMD sudo service nginx start && pianod2
