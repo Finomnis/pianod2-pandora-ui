@@ -55,6 +55,7 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install --yes \
     libcurl3-gnutls \
     libavfilter7 \
     libao4 \
+    nginx \
     && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Set up the user
@@ -71,12 +72,22 @@ VOLUME /run/user/1000/pulse
 # Pulse config
 COPY docker/pulse-client.conf /etc/pulse/client.conf
 
-# Copy externally built steps (ui + pianod2)
+# Install pianod2
 COPY --from=pianod2 /pianod2/src/pianod /usr/local/bin/pianod2
-COPY --from=webui /webui/build /usr/local/share/pianod/html
+RUN mkdir -p /usr/local/share/pianod/html
 
-# Test if the command works
+# Install web ui
+COPY --from=webui /webui/build /var/www/html
+
+# Test if pianod2 works, to make sure all dependencies
+# are installed correctly
 RUN pianod2 -vv
 
-# run
-#CMD ["pacat", "-vvvv", "/dev/urandom"]
+# Expose webui port
+EXPOSE 80
+
+# Expose pianod2 websocket port
+EXPOSE 4446
+
+# Start nginx and pianod2
+CMD service nginx start && pianod2
