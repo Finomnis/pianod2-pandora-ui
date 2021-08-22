@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { RootState, useAppDispatch } from "../../../../app/store";
-import { Dialog, DialogTitle, List, ListItem, ListItemIcon, ListItemText, withStyles } from "@material-ui/core";
+import { Button, Dialog, DialogActions, DialogTitle, List, ListItem, ListItemIcon, ListItemText, withStyles } from "@material-ui/core";
 import { historyClosed } from "../state/slice";
 
 const SongInfoText = withStyles({
@@ -19,12 +19,12 @@ const HistoryWindow = () => {
     const dispatch = useAppDispatch();
     const history = useSelector((state: RootState) => state.ui.history);
 
-    const closeWindow = () => {
+    const handleClose = () => {
         dispatch(historyClosed());
     };
 
     return (
-        <Dialog onClose={closeWindow} open={history.shown}>
+        <Dialog onClose={handleClose} open={history.shown}>
             <DialogTitle>Previous Titles</DialogTitle>
             <List style={{ overflow: "auto" }}>
                 {
@@ -41,6 +41,11 @@ const HistoryWindow = () => {
                     ))
                 }
             </List>
+            <DialogActions>
+                <Button onClick={handleClose} color="primary" autoFocus>
+                    Close
+                </Button>
+            </DialogActions>
         </Dialog>
     );
 };
