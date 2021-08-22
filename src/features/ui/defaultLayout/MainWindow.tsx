@@ -1,4 +1,5 @@
 import { Box } from "@material-ui/core";
+import HistoryWindow from "./HistoryWindow";
 import MainContent from "./MainContent";
 import PlayerController from "./PlayerController";
 import TitleBar from "./TitleBar";
@@ -8,6 +9,7 @@ const MainWindow = () => (
         <TitleBar />
         <MainContent />
         <PlayerController />
+        <HistoryWindow />
     </Box >
 );
 

@@ -1,7 +1,7 @@
 import { Action } from "redux";
 import { takeEvery, call, put } from "redux-saga/effects";
 import { notifcationAction, NotificationSeverity } from "../../notificationActions";
-import { changeStationAction, pauseAction, resumeAction, skipAction } from "../../playerActions";
+import { changeStationAction, historyResponseAction, pauseAction, requestHistoryAction, resumeAction, skipAction } from "../../playerActions";
 import pianod2_client from "../connection/pianod2_client";
 
 const call_pianod2 = (command: string, args: object) => call(
@@ -55,6 +55,30 @@ function* handleSkipAction(action: Action) {
     );
 }
 
+function* handleRequestHistoryAction(action: Action) {
+    if (!(requestHistoryAction.match(action))) return;
+
+    const history: [{
+        albumArtUrl: string,
+        albumName: string,
+        artistName: string,
+        trackName: string,
+    }] | null = yield call_pianod2(
+        "getHistory", {}
+    );
+
+    const processedHistory = (history === null) ? [] : history.map(
+        (element) => ({
+            song: element.trackName,
+            artist: element.artistName,
+            album: element.albumName,
+            albumArt: element.albumArtUrl,
+        })
+    )
+
+    yield put(historyResponseAction(processedHistory))
+}
+
 const tryRun = (actionHandler: (action: Action) => any) => (
     function* saga(action: Action) {
         try {
@@ -84,4 +108,5 @@ export function* playerActionsSaga() {
     yield takeEvery(resumeAction.match, tryRun(handleResumeAction));
     yield takeEvery(pauseAction.match, tryRun(handlePauseAction));
     yield takeEvery(skipAction.match, tryRun(handleSkipAction));
+    yield takeEvery(requestHistoryAction.match, tryRun(handleRequestHistoryAction));
 }

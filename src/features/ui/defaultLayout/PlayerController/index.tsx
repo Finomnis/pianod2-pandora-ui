@@ -12,7 +12,7 @@ import {
     selectSongPosition,
 } from "../../../playerSelectors";
 import { useAppDispatch } from "../../../../app/store";
-import { pauseAction, resumeAction, skipAction } from "../../../playerActions";
+import { pauseAction, requestHistoryAction, resumeAction, skipAction } from "../../../playerActions";
 import styles from "./styles.module.css";
 import { useAnimatedSongTime } from "./animatedSongTime";
 
@@ -141,7 +141,7 @@ const PlayerController = () => {
                         </Box>
                     </Hidden>
                     <Box className={styles.buttonHolder}>
-                        <IconButton disabled={controlsDisabled || true} color="inherit" onClick={() => { /*dispatch(TODO skipAction())*/ }} >
+                        <IconButton disabled={false} color="inherit" onClick={() => dispatch(requestHistoryAction())} >
                             <FastRewindIcon />
                         </IconButton>
                     </Box>
