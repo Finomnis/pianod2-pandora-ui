@@ -38,7 +38,10 @@ RUN make
 
 ###################################
 # Build webui
-FROM node:15-buster as webui
+FROM debian:10.8 as webui
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install --yes \
+    npm \
+    && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 COPY . /webui
 WORKDIR /webui
 RUN npm ci \
