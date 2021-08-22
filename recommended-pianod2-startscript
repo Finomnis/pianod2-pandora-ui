@@ -1,0 +1,72 @@
+# This is a sample startscript for pianod.
+# It's read in at startup, just as if this was entered by an administrator.
+
+# Allow listening visitors reasonable visibility
+SET VISITOR RANK LISTENER
+
+# Set number of songs in history; after this count, history is lost.
+SET HISTORY LENGTH 20
+
+# ### Logging ###
+# Log pianod warnings in addition to errors
+# 0 = log nothing but errors.  0x220 is sane.
+SET LOGGING FLAGS 0x220
+# Log football warnings and connection initiations/errors
+# 0 = log nothing but errors.  0x1 adds warnings; 0x3331 adds connections.
+SET FOOTBALL LOGGING FLAGS 0x3331
+
+# Adjust this one
+# IMPORTANT
+# pianod2 cannot handle adds, and therefore only works with paid pandora accounts.
+PANDORA USER <pandora-login> <pandora-password> ACCOUNT TYPE PLUS CONTROL PROXY <proxy-url>
+
+# ### Audio ###
+# Override default audio library: avfoundation, libao, libsdl, libavdevice
+ROOM RECONFIGURE LIBRARY libao
+
+# Choose a driver.  Values depend on audio library.
+# Most Linuxes with libavdevice will want to set this to ALSA.
+ROOM RECONFIGURE DRIVER pulse
+
+# Choose a specific device.  Values depend on audio library/driver.
+# ROOM RECONFIGURE DEVICE somevalue
+
+# Audio device options.  Values depend on library/driver.
+# Some libavdevice drivers are experimental and return an "Experimental
+# feature" error, unless "strict=experimental" option is set.
+# ROOM RECONFIGURE OPTIONS strict=experimental
+
+# Audio destination for netcast protocols.  Values depend on library/driver.
+# ROOM RECONFIGURE SERVER ip_or_uri_or_something
+
+# How much to overlap songs when crossfading, in seconds.  0=off.
+CROSSFADE DURATION 0
+
+# Amount of fade when crossfading, in decibels
+# CROSSFADE LEVEL 6
+
+
+
+# ### Autotuning ###
+# Try to mix at least this many playlist when autotuning
+# AUTOTUNE MODE QUANTITY GOAL 10
+
+# Set the autotune quality requirement, in ratings difference.
+# AUTOTUNE MODE QUALITY MARGIN 1.0
+
+# Set the autotune veto, rejection, and inclusion levels, in ratings.
+# AUTOTUNE MODE VETO rating
+# AUTOTUNE MODE REJECT rating
+# AUTOTUNE MODE INCLUDE rating
+
+# ### Default action ###
+# How to choose random songs: song, album, artist, playlist, or random
+# Default is by song.
+# QUEUE RANDOMIZE BY PLAYLIST
+
+# Default mode: Autotune playlists, but don't play
+# SELECT AUTO
+# Default mode: Start playing a mix when launched
+# PLAY MIX
+# Default mode: play requests if submitted
+PLAY REQUEST
