@@ -93,6 +93,7 @@ RUN sed -i s/%USERNAME%/${user_name}/g /etc/sudoers.d/${user_name}
 USER ${user_name}
 
 # Persist pianod2 config
+RUN mkdir -p /home/${user_name}/.config/pianod2
 VOLUME /home/${user_name}/.config/pianod2
 
 # Test if pianod2 works, to make sure all dependencies
