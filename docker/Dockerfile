@@ -65,6 +65,7 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install --yes \
     libao4 \
     nginx \
     sudo \
+    vim \
     && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Pulseaudio device.
