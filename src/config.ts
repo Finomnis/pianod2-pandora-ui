@@ -1,2 +1,1 @@
-export const WEBSOCKET_PORT =
-    process.env.NODE_ENV === "production" ? window.location.port : "4446";
+export const WEBSOCKET_PORT = "4446";
