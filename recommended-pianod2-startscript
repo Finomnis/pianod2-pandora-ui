@@ -21,12 +21,14 @@ SET FOOTBALL LOGGING FLAGS 0x3331
 PANDORA USER <pandora-login> <pandora-password> ACCOUNT TYPE PLUS CONTROL PROXY <proxy-url>
 
 # ### Audio ###
-# Override default audio library: avfoundation, libao, libsdl, libavdevice
-ROOM RECONFIGURE LIBRARY libao
-
 # Choose a driver.  Values depend on audio library.
 # Most Linuxes with libavdevice will want to set this to ALSA.
+# IMPORTANT: In our case (Docker) we only pass the pulse device into docker,
+# so 'pulse' is the only choice here.
 ROOM RECONFIGURE DRIVER pulse
+
+# Override default audio library: avfoundation, libao, libsdl, libavdevice
+ROOM RECONFIGURE LIBRARY libao
 
 # Choose a specific device.  Values depend on audio library/driver.
 # ROOM RECONFIGURE DEVICE somevalue
