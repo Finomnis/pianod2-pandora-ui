@@ -2,8 +2,10 @@ name: create-docker
 
 on:
   push:
-    #branches:
-    #  - 'master'
+    branches:
+      - 'main'
+  create:
+    tags:
 
 env:
   REGISTRY: ghcr.io
@@ -50,7 +52,7 @@ jobs:
           context: .
           file: ./docker/Dockerfile
           platforms: linux/amd64, linux/arm64, linux/arm/v7, linux/arm/v6
-          push: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+          push: ${{ (github.event_name == 'push' && github.ref == 'refs/heads/main') || (github.event_name == 'create' && github.event.ref_type == 'tag') }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=local,src=/tmp/.buildx-cache
