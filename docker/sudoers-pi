@@ -1,4 +1,0 @@
-%pi ALL= NOPASSWD: /usr/sbin/service nginx status
-%pi ALL= NOPASSWD: /usr/sbin/service nginx start
-%pi ALL= NOPASSWD: /usr/sbin/service nginx stop
-%pi ALL= NOPASSWD: /usr/sbin/service nginx restart

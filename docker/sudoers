@@ -1,0 +1,4 @@
+%%USERNAME% ALL= NOPASSWD: /usr/sbin/service nginx status
+%%USERNAME% ALL= NOPASSWD: /usr/sbin/service nginx start
+%%USERNAME% ALL= NOPASSWD: /usr/sbin/service nginx stop
+%%USERNAME% ALL= NOPASSWD: /usr/sbin/service nginx restart

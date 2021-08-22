@@ -1,4 +1,8 @@
 ARG pianod2_version="380"
+ARG user_id="1000"
+ARG group_id="1000"
+ARG user_name="pi"
+ARG group_name="pi"
 
 ###################################
 # Build pianod2
@@ -49,6 +53,10 @@ RUN npm ci \
 ###################################
 # Build final system
 FROM debian:10.8
+ARG user_id
+ARG group_id
+ARG user_name
+ARG group_name
 
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install --yes \
     pulseaudio-utils \
@@ -64,10 +72,11 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install --yes \
 # -v "/run/user/1000/pulse:/run/user/1000/pulse"
 # Tested on a Raspberry PI OS, where the default
 # user is UID=1000 and GID=1000
-VOLUME /run/user/1000/pulse
+VOLUME /run/user/${user_id}/pulse
 
 # Pulse config
 COPY docker/pulse-client.conf /etc/pulse/client.conf
+RUN sed -i s/%USERID%/${user_id}/g /etc/pulse/client.conf
 
 # Install pianod2
 COPY --from=pianod2 /pianod2/src/pianod /usr/local/bin/pianod2
@@ -77,9 +86,10 @@ RUN mkdir -p /usr/local/share/pianod/html
 COPY --from=webui /webui/build /var/www/html
 
 # Set up the user
-RUN groupadd -g 1000 pi && useradd pi -s /bin/bash -m -u 1000 -g 1000
-COPY docker/sudoers-pi /etc/sudoers.d/pi
-USER pi
+RUN groupadd -g ${group_id} ${group_name} && useradd ${user_name} -s /bin/bash -m -u ${user_id} -g ${group_id}
+COPY docker/sudoers /etc/sudoers.d/${user_name}
+RUN sed -i s/%USERNAME%/${user_name}/g /etc/sudoers.d/${user_name}
+USER ${user_name}
 
 # Test if pianod2 works, to make sure all dependencies
 # are installed correctly
