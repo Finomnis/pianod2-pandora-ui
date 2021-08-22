@@ -2,9 +2,11 @@ import React from "react";
 import { Box, Hidden, IconButton, LinearProgress, Theme, withStyles } from "@material-ui/core";
 import PlayArrowIcon from "@material-ui/icons/PlayArrow";
 import PauseIcon from '@material-ui/icons/Pause';
+import FastRewindIcon from '@material-ui/icons/FastRewind';
 import SkipNextIcon from '@material-ui/icons/SkipNext';
 import { useSelector } from "react-redux";
 import {
+    selectControlsActive,
     selectPlaying,
     selectSongDuration,
     selectSongPosition,
@@ -98,10 +100,11 @@ const SongTime = React.memo(() => {
     </Box>;
 });
 
-const PlayPauseButton = React.memo(() => {
+const PlayPauseButton = React.memo(({ disabled }: { disabled?: boolean }) => {
     const dispatch = useAppDispatch();
     const playing = useSelector(selectPlaying);
-    return <IconButton color="inherit" onClick={() => playing ? dispatch(pauseAction()) : dispatch(resumeAction())} >
+
+    return <IconButton disabled={disabled} color="inherit" onClick={() => playing ? dispatch(pauseAction()) : dispatch(resumeAction())} >
         {
             playing
                 ? <PauseIcon style={{ fontSize: 45 }} />
@@ -112,6 +115,7 @@ const PlayPauseButton = React.memo(() => {
 
 const PlayerController = () => {
     const dispatch = useAppDispatch();
+    const controlsDisabled = !useSelector(selectControlsActive);
     return (
         <Box
             display="flex"
@@ -130,7 +134,7 @@ const PlayerController = () => {
                 alignItems="stretch"
                 overflow="hidden"
             >
-                <Box flex="1 0 0" display="flex" justifyContent="flex-end" alignItems="stretch" position="relative">
+                <Box flex="1 0 0" display="flex" justifyContent="flex-end" alignItems="center" position="relative">
                     <Hidden smUp>
                         <Box position="absolute" left={0} top={0}>
                             <SongPosition />
@@ -138,11 +142,11 @@ const PlayerController = () => {
                     </Hidden>
                 </Box>
                 <Box flex="0 0 auto" >
-                    <PlayPauseButton />
+                    <PlayPauseButton disabled={controlsDisabled} />
                 </Box>
                 <Box flex="1 0 0" display="flex" justifyContent="flex-start" alignItems="center" position="relative">
                     <Box className={styles.buttonHolder}>
-                        <IconButton color="inherit" onClick={() => dispatch(skipAction())} >
+                        <IconButton disabled={controlsDisabled} color="inherit" onClick={() => dispatch(skipAction())} >
                             <SkipNextIcon />
                         </IconButton>
                     </Box>

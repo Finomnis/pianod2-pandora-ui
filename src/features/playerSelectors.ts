@@ -29,3 +29,6 @@ export const selectPlaylistId = (state: RootState) => {
     }
     return playlistId;
 }
+export const selectControlsActive = (state: RootState) => {
+    return selectPlaylistId(state) !== null;
+}
