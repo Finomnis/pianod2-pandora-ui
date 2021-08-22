@@ -25,20 +25,25 @@ const HistoryWindow = () => {
 
     return (
         <Dialog onClose={handleClose} open={history.shown}>
-            <DialogTitle>Previous Titles</DialogTitle>
+            <DialogTitle>Song History</DialogTitle>
             <List style={{ overflow: "auto" }}>
                 {
-                    history.entries.map((entry, index) => (
-                        <ListItem key={index}>
-                            <ListItemIcon>
-                                <img src={entry.albumArt} height="50px" alt="" />
-                            </ListItemIcon>
-                            <SongInfoText
-                                primary={entry.song}
-                                secondary={entry.artist}
-                            />
+                    (history.entries.length === 0) ? (
+                        <ListItem>
+                            History is empty
                         </ListItem>
-                    ))
+                    ) : (
+                        history.entries.map((entry, index) => (
+                            <ListItem key={index}>
+                                <ListItemIcon>
+                                    <img src={entry.albumArt} height="50px" alt="" />
+                                </ListItemIcon>
+                                <SongInfoText
+                                    primary={entry.song}
+                                    secondary={entry.artist}
+                                />
+                            </ListItem>
+                        )))
                 }
             </List>
             <DialogActions>
