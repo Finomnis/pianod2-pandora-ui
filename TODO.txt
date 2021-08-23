@@ -1,0 +1,5 @@
+- Rewrite README.md
+- Proper release 0.1.0
+- Building web ui archive in CI on Release
+- Add like, 'hide for a while' buttons
+- Add 'create new radio' functionality
