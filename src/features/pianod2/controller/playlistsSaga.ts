@@ -1,7 +1,6 @@
-import { call, take } from "@redux-saga/core/effects";
 import pianod2_client from "../connection/pianod2_client";
 import { connectionEstablished } from "../store/slices/websocket";
-import { delay, fork, put, race } from "redux-saga/effects";
+import { call, put, takeEvery } from "redux-saga/effects";
 import { playlistsChanged } from "../store/slices/playlists";
 
 interface PlaylistElement {
@@ -30,13 +29,5 @@ function* updatePlaylists() {
 }
 
 export function* playlistsSaga() {
-    while (true) {
-        // Wait for connection or time
-        yield race({
-            connection_established: take(connectionEstablished),
-            time_over: delay(60000),
-        });
-
-        yield fork(updatePlaylists);
-    }
+    yield takeEvery(connectionEstablished.match, updatePlaylists);
 }
