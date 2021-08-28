@@ -88,8 +88,9 @@ const tryRun = (actionHandler: (action: Action) => any) => (
 
             let message = `Action '${actionType}' failed!`;
 
-            if ('reason' in e) {
-                message = `Action '${actionType}' failed: ${e.reason}`;
+            const reason = e.reason;
+            if (reason !== undefined) {
+                message = `Action '${actionType}' failed: ${reason}`;
             }
 
             yield put(notifcationAction({

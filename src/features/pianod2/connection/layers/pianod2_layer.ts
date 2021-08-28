@@ -4,11 +4,17 @@ import { connectionEstablished, connectionLost, dataReceived } from "../../store
 import { WebsocketData } from "../../types";
 import { WebsocketConnection } from "./websocket_layer";
 
+type CommandError = {
+    reason: string,
+    message?: object,
+    exception?: any
+}
+
 type CommandRequest = {
     name: string,
     args: object,
     resolve: (value: object | PromiseLike<object | null> | null) => void,
-    reject: (reason?: any) => void,
+    reject: (reason: CommandError) => void,
 };
 
 
@@ -72,7 +78,7 @@ export default class Pianod2Client {
                 }
             }
         } catch (e) {
-            command.reject(e);
+            command.reject({ reason: "Unknown exception occurred", exception: e });
             throw e;
         }
     }
@@ -117,7 +123,7 @@ export default class Pianod2Client {
                             run: call(this.run_rpc.bind(this), connection, command),
                         })
                         if (timeout) {
-                            command.reject("Command timed out.");
+                            command.reject({ reason: "Command timed out." });
                         }
                     }
                 }
