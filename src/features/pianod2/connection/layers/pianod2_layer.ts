@@ -17,6 +17,7 @@ type CommandRequest = {
     reject: (reason: CommandError) => void,
 };
 
+const PIANOD2_TIMEOUT_MS = 30000;
 
 export default class Pianod2Client {
     hostname: string
@@ -119,7 +120,7 @@ export default class Pianod2Client {
 
                     if (command) {
                         const { timeout } = yield race({
-                            timeout: delay(1000),
+                            timeout: delay(PIANOD2_TIMEOUT_MS),
                             run: call(this.run_rpc.bind(this), connection, command),
                         })
                         if (timeout) {
