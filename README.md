@@ -158,7 +158,7 @@ For the full reference of commands, look at http://deviousfish.com/Pianod/Docume
 - `SET HISTORY LENGTH <number>` - Sets the number of songs that can be seen in the song history. I set mine to `20`.
 - `PANDORA USER <username> <password> ACCOUNT TYPE PLUS` - The username/password of Pandora. Note the `TYPE PLUS` - Pianod2 does not work with Pandora Free accounts, as it can not deal with the forced advertisements.
   Therefore buy a Pandora account if you want to use this project.
-- Add `CONTROL PROXY <proxy>` to the `PANDORA` command if you want to use Pianod2 from a non-us country. I can recommend proxy services like https://webshare.io.
+- Add `CONTROL PROXY <proxy>` to the `PANDORA` command if you want to use Pianod2 from a non-US country. I can recommend proxy services like https://webshare.io.
 - `ROOM RECONFIGURE DRIVER pulse` - choose pulse as the audio output
 - `ROOM RECONFIGURE LIBRARY libao` - required for this docker, as Pianod2 is only built with libao support. Note that this line has to come *after* `ROOM RECONFIGURE DRIVER`.
 - `CROSSFADE DURATION 0` - personal preference.
