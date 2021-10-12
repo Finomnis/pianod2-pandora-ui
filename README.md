@@ -9,6 +9,8 @@ The player can then be controlled by your Phone or PC.
 
 The entire project is based on the [Pianod2](http://deviousfish.com/Pianod/index.html) media player service and utilizes Docker containers.
 
+Its build artifacts get published as Docker images [here](https://github.com/Finomnis/pianod2-pandora-ui/pkgs/container/pianod2-pandora-ui).
+
 ## Raspberry PI Pandora Player
 
 This guide is specific for Raspberry Pi's (in my case a Raspberry Pi 3B+).
