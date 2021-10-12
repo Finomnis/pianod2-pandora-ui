@@ -1,10 +1,13 @@
 # Pianod2 Pandora UI
 
-The goal of this project is provide a Web UI that can control the Pianod2 daemon.
-Its primary use-case is to run Pianod2 on Media Center with an audio output, like a RaspberryPi with an HQ soundcard.
-Pianod2 can then be controlled by your Phone or PC.
+The goal of this project is provide a self-hosted Pandora Player with a Web UI.
 
-The entire project is built with Docker in mind.
+Its primary use-case is to run on a Media Center with an audio output, like a RaspberryPi with an HQ soundcard.
+The player can then be controlled by your Phone or PC.
+
+![UI Screenshot](media/ui_screenshot.jpg)
+
+The entire project is based on the [Pianod2](http://deviousfish.com/Pianod/index.html) media player service and utilizes Docker containers.
 
 ## Raspberry PI Pandora Player
 
