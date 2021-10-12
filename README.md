@@ -65,7 +65,7 @@ default-fragment-size-msec = 15
 ```
 
 The sample rates `48000` and `44100` are important, because those are the sample rates
-used by pandora. (At least I think so, correct me if I'm wrong)
+used by Pandora. (At least I think so, correct me if I'm wrong)
 
 
 ### Docker Setup
