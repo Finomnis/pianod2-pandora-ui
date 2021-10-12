@@ -11,7 +11,7 @@ The entire project is based on the [Pianod2](http://deviousfish.com/Pianod/index
 
 Its build artifacts get published as Docker images [here](https://github.com/Finomnis/pianod2-pandora-ui/pkgs/container/pianod2-pandora-ui).
 
-## Raspberry PI Pandora Player
+## Raspberry Pi Pandora Player
 
 This guide is specific for Raspberry Pi's (in my case a Raspberry Pi 3B+).
 But for other boards, it works similar, probably.
