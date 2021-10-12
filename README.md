@@ -146,7 +146,8 @@ Then, make sure that the config directory has the correct ownership (for some re
 chmod pi:pi /home/pi/.config
 ```
 
-Then, open the Pianod2 config file:
+Then, open the Pianod2 config file. If it does not exist,
+create it and paste the [recommended content](https://github.com/Finomnis/pianod2-pandora-ui/blob/main/docker/recommended-pianod2-startscript) into it.
 ```
 vim /home/pi/.config/pianod2/startscript
 ```
