@@ -25,7 +25,7 @@ Make sure that the user you use from now on has the UID and GID `1000`.
 By default, the user `pi` has the correct GID/UID, so don't create your own user, just use
 the `pi` user.
 
-This is important because that UID/GID is hardcoded when the PulseAudio device gets mounted into the docker container.
+This is important because that UID/GID is hardcoded when the PulseAudio device gets mounted into the Docker container.
 I wasn't able to find a proper way to make this configurable. Pull requests welcome.
 
 ### PulseAudio Setup
