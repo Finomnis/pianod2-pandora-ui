@@ -90,7 +90,7 @@ Therefore I use Portainer to manage my Docker containers. Again, this is not req
 project, but it makes docker and especially docker-compose much easier to manage.
 
 Alternatively, if a command line is preferred, the tool 'docker-compose' has to be installed instead of Portainer.
-The installation of docker-compose will not be described here, and later steps will specific for Portainer.
+The installation of docker-compose will not be described here, and later steps will assume that you installed Portainer.
 
 Install portainer:
 ```
