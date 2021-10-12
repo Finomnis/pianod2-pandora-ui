@@ -1,4 +1,4 @@
-ARG pianod2_version="381"
+ARG pianod2_version="382"
 ARG user_id="1000"
 ARG group_id="1000"
 ARG user_name="pi"
