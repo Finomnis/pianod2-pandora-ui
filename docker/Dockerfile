@@ -26,10 +26,9 @@ WORKDIR /pianod2
 RUN curl -S -L http://deviousfish.com/Downloads/pianod2/Devel/pianod2-${pianod2_version}.tar.gz \
     | tar --strip-components=1 -xzf -
 RUN aclocal \
-    && autoheader \
-    && automake --add-missing #--force-missing
-RUN autoconf \
-    && ./configure \
+    && autoconf \
+    && automake --add-missing
+RUN ./configure \
         --enable-debug \
         --with-libao \
         --with-pandora \
